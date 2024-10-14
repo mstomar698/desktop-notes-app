@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-color: #030f18;
+  --primary-color: #001f3f;
+  --secondary-color: #43b7ff;
+  --header-color: #030f18;
+  --body-text-color: #fafbfc;
+  --topper-font-size: clamp(0.8125rem, 1.6vw, 1rem);
+  --header-font-size: clamp(1.9375rem, 3.9vw, 3.0625rem);
+  --body-font-size: 1rem;
+  --section-padding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+  --shadow-primary: 0 4px 6px rgba(70, 69, 69, 0.5);
+  --shadow-secondary: 0 4px 6px rgba(72, 72, 72, 0.5);
+}
