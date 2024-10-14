@@ -1,6 +1,9 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { invoke } from '@tauri-apps/api/core';
+
+const Editor = dynamic(() => import('@components/editor'), { ssr: false });
 
 export default function Home() {
   const [greetMsg, setGreetMsg] = useState('');
@@ -21,12 +24,12 @@ export default function Home() {
   async function saveNote(title: string, content: string) {
     const result = await invoke('add_note', { title, content });
     console.log(result);
-    getNotes(); 
+    getNotes();
   }
 
   const getNotes = useCallback(async () => {
     const notes = (await invoke('get_notes')) as Note[];
-    setNotes(notes); 
+    setNotes(notes);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,6 +107,10 @@ export default function Home() {
             ))
           )}
         </div>
+      </div>
+
+      <div className="w-full h-screen bg-[#1f1f1f] mt-8">
+        <Editor />
       </div>
     </div>
   );
