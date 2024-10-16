@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { invoke } from '@tauri-apps/api/core';
 
-const Editor = dynamic(() => import('@components/editor'), { ssr: false });
+const BE = dynamic(() => import('@components/backendeditor'), { ssr: false });
+// const BEC = dynamic(() => import('@components/customdropdown'), { ssr: false });
 
 export default function Home() {
   const [greetMsg, setGreetMsg] = useState('');
@@ -48,7 +49,7 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-6">Welcome to Tauri!</h1>
 
       <form
-        className="flex flex-col my-4 justify-center items-center"
+        className="flex flex-row my-4 w-full justify-center items-center"
         onSubmit={(e) => {
           e.preventDefault();
           greet();
@@ -56,19 +57,19 @@ export default function Home() {
       >
         <input
           id="greet-input"
-          className="w-full mb-2 rounded-lg p-2 border border-gray-700 bg-gray-800 text-white"
+          className="w-3/4 rounded-lg p-2 border border-gray-700 bg-gray-800 text-white"
           onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
+          placeholder="Enter a query..."
         />
         <button
           type="submit"
-          className="p-2 text-black bg-yellow-500 w-full rounded-lg mt-2 hover:bg-yellow-400 transition"
+          className="p-2 text-black bg-yellow-500 w-1/4 rounded-lg hover:bg-yellow-400 transition"
         >
-          Greet
+          Ask
         </button>
       </form>
 
-      <span className="text-green-500 mt-2">{greetMsg}</span>
+      <span className="text-green-500 mt-2 w-full">{greetMsg}</span>
 
       <form onSubmit={handleSubmit} className="w-full mt-6">
         <input
@@ -109,9 +110,12 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-full h-screen bg-[#1f1f1f] mt-8">
-        <Editor />
+      <div className="w-full overflow-hidden overflow-y-scroll bg-[#1f1f1f] mt-8">
+        <BE />
       </div>
+      {/* <div className="w-full overflow-hidden overflow-y-scroll bg-[#1f1f1f] mt-8">
+        <BEC />
+      </div> */}
     </div>
   );
 }
