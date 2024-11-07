@@ -1,10 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { invoke } from '@tauri-apps/api/core';
-
-const BE = dynamic(() => import('@components/backendeditor'), { ssr: false });
-// const BEC = dynamic(() => import('@components/customdropdown'), { ssr: false });
 
 export default function Home() {
   const [greetMsg, setGreetMsg] = useState('');
@@ -109,13 +105,6 @@ export default function Home() {
           )}
         </div>
       </div>
-
-      <div className="w-full overflow-hidden overflow-y-scroll bg-[#1f1f1f] mt-8">
-        <BE />
-      </div>
-      {/* <div className="w-full overflow-hidden overflow-y-scroll bg-[#1f1f1f] mt-8">
-        <BEC />
-      </div> */}
     </div>
   );
 }
