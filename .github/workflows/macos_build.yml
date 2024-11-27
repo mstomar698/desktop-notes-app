@@ -81,18 +81,10 @@ jobs:
         run: |
           brew install cmake python
 
-      - name: Cache Kuzu build artifacts
-        uses: actions/cache@v3
-        with:
-          path: /System/Volumes/Data/Users/runner/work/NodeCodeDesktop/NodeCodeDesktop/kuzu/build/release/src/libkuzu.dylib
-          key: ${{ runner.os }}-kuzu-${{ hashFiles('**/kuzu/*') }}
-          restore-keys: |
-            ${{ runner.os }}-kuzu-
-
       - name: Clone and Build KuzuDB on macOS
         if: runner.os == 'macOS'
         run: |
-          if [ ! -f /System/Volumes/Data/Users/runner/work/NodeCodeDesktop/NodeCodeDesktop/kuzu/build/release/src/libkuzu.dylib ]; then
+          if [ ! -f /System/Volumes/Data/Users/runner/work/mstomar698/desktop-notes-app/kuzu/build/release/src/libkuzu.dylib ]; then
             echo "KuzuDB not found, building..."
             git clone https://${{ secrets.GH_TOKEN }}@github.com/kuzudb/kuzu.git
             cd kuzu
@@ -101,11 +93,19 @@ jobs:
             echo "Using cached KuzuDB build"
           fi
 
+      - name: Cache Kuzu build artifacts
+        uses: actions/cache@v3
+        with:
+          path: /System/Volumes/Data/Users/runner/work/mstomar698/desktop-notes-app/kuzu/build/release/src/libkuzu.dylib
+          key: ${{ runner.os }}-kuzu-${{ hashFiles('**/kuzu/*') }}
+          restore-keys: |
+            ${{ runner.os }}-kuzu-
+
       - name: Copy KuzuDB .dylib to src-tauri folder
         if: runner.os == 'macOS'
         run: |
           mkdir -p src-tauri/kuzu
-          cp /System/Volumes/Data/Users/runner/work/NodeCodeDesktop/NodeCodeDesktop/kuzu/build/release/src/libkuzu.dylib src-tauri/kuzu/libkuzu.dylib
+          cp /System/Volumes/Data/Users/runner/work/mstomar698/desktop-notes-app/kuzu/build/release/src/libkuzu.dylib src-tauri/kuzu/libkuzu.dylib
 
       - name: Clean Cargo.toml
         if: runner.os == 'macOS'
@@ -119,12 +119,12 @@ jobs:
         run: |
           echo "
           [package]
-          name = \"nodecode\"
+          name = \"notes app\"
           version = \"1.1.0\"
-          description = \"nodecode\"
+          description = \"notes app \"
           authors = [\"mstomar\"]
           license = \"\"
-          repository = \"nodecodeapp/NodeCodeDesktop\"
+          repository = \"mstomar698/desktop-notes-app\"
           edition = \"2021\"
           rust-version = \"1.77.2\"
 
