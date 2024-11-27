@@ -42,8 +42,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center p-4">
-      <h1 className="text-4xl font-bold mb-6">Welcome to Tauri!</h1>
-
       <form
         className="flex flex-row my-4 w-full justify-center items-center"
         onSubmit={(e) => {

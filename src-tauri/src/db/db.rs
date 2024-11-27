@@ -1,7 +1,7 @@
 use kuzu::{Connection, Database, Error, SystemConfig};
 
 pub fn initialize_db() -> Result<Database, Error> {
-    let db_path = "notes_graph_db";
+    let db_path = "notes.db";
     let config = SystemConfig::default();
     let db = Database::new(db_path, config)?;
 

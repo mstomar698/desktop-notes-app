@@ -1580,9 +1580,9 @@ dependencies = [
 
 [[package]]
 name = "kuzu"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "527e7b405184eed18b2eec3d475332012f3fb50ace86b3ee32a6f46dd09252c7"
+checksum = "3850cdf88896516dddfeb17afe0191eda2af446e50a08868b3af1016f0a50d85"
 dependencies = [
  "cmake",
  "cxx",
