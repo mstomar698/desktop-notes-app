@@ -1,8 +1,7 @@
-use std::env;
 use std::path::Path;
 
 fn main() {
-    let kuzu_lib_path = Path::new("src-tauri/kuzu/libkuzu.dylib");
+    let kuzu_lib_path = Path::new("kuzu/libkuzu.dylib");
 
     if kuzu_lib_path.exists() {
         println!("cargo:rerun-if-changed={}", kuzu_lib_path.display());
