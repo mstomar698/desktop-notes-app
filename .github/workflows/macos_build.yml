@@ -112,8 +112,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          cp libkuzu.dylib src-tauri/dependencies/ 
-          git add src-tauri/dependencies/libkuzu.dylib
+          cp libkuzu.dylib src-tauri/kuzu/ 
+          git add src-tauri/kuzu/libkuzu.dylib
           git commit -m "Add built libkuzu.dylib for macOS"
           git push
 
