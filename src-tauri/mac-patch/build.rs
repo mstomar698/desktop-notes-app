@@ -1,18 +1,17 @@
+use std::env;
 use std::path::Path;
+use std::process::Command;
 
 fn main() {
-    let kuzu_lib_path = Path::new("kuzu/libkuzu.dylib");
+    let llvm_path = "/usr/local/opt/llvm";
+    let gcc_path = "/usr/local/opt/gcc";
 
-    if kuzu_lib_path.exists() {
-        println!("cargo:rerun-if-changed={}", kuzu_lib_path.display());
-
-        println!("cargo:rustc-link-lib=dylib=kuzu");
-
-        println!(
-            "cargo:rustc-link-search=native={}",
-            kuzu_lib_path.parent().unwrap().display()
-        );
-    } else {
-        panic!("KuzuDB library not found at {:?}", kuzu_lib_path);
-    }
+    println!("cargo:rustc-link-search=native={}/lib", llvm_path);
+    println!("cargo:rustc-link-search=native={}/lib", gcc_path);
+    
+    println!("cargo:rustc-link-lib=dylib=stdc++");
+    println!("cargo:rustc-link-lib=dylib=c++");
+    
+    println!("cargo:warning=LLVM Path: {}", llvm_path);
+    println!("cargo:warning=GCC Path: {}", gcc_path);
 }
