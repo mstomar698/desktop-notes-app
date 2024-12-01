@@ -91,31 +91,31 @@ jobs:
         run: |
           brew install cmake python
 
-      - name: Clone and Build KuzuDB on macOS
-        if: runner.os == 'macOS'
-        run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/kuzudb/kuzu.git
-          cd kuzu
-          make release NUM_THREADS=$(sysctl -n hw.physicalcpu)
-          cp build/release/src/libkuzu.dylib ../
-      
-          
-      - name: Cache Kuzu build artifacts
-        uses: actions/cache@v3
-        with:
-          path: kuzu/build/release
-          key: ${{ runner.os }}-kuzu-${{ hashFiles('kuzu/*') }}
-          restore-keys: |
-            ${{ runner.os }}-kuzu-
-            
-      - name: Commit built KUZU's dylib
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          cp libkuzu.dylib src-tauri/kuzu/ 
-          git add src-tauri/kuzu/libkuzu.dylib
-          git commit -m "Add built libkuzu.dylib for macOS"
-          git push
+      #### ONLY to enable when new relase of Kuzu is available ####
+      # - name: Clone and Build KuzuDB on macOS
+      #   if: runner.os == 'macOS'
+      #   run: |
+      #     git clone https://${{ secrets.GH_TOKEN }}@github.com/kuzudb/kuzu.git
+      #     cd kuzu
+      #     make release NUM_THREADS=$(sysctl -n hw.physicalcpu)
+      #     cp build/release/src/libkuzu.dylib ../
+
+      # - name: Cache Kuzu build artifacts
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: kuzu/build/release
+      #     key: ${{ runner.os }}-kuzu-${{ hashFiles('kuzu/*') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-kuzu-
+
+      # - name: Commit built KUZU's dylib
+      #   run: |
+      #     git config --global user.name "github-actions[bot]"
+      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      #     cp libkuzu.dylib src-tauri/kuzu/
+      #     git add src-tauri/kuzu/libkuzu.dylib
+      #     git commit -m "Add built libkuzu.dylib for macOS"
+      #     git push
 
       - name: Install Rust and Build Application with Kuzu
         uses: dtolnay/rust-toolchain@stable
