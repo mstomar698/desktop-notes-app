@@ -100,23 +100,23 @@ jobs:
           cp build/release/src/libkuzu.dylib ../
       
           
-          - name: Cache Kuzu build artifacts
-          uses: actions/cache@v3
-          with:
-            path: kuzu/build/release
-            key: ${{ runner.os }}-kuzu-${{ hashFiles('kuzu/*') }}
-            restore-keys: |
+      - name: Cache Kuzu build artifacts
+        uses: actions/cache@v3
+        with:
+          path: kuzu/build/release
+          key: ${{ runner.os }}-kuzu-${{ hashFiles('kuzu/*') }}
+          restore-keys: |
             ${{ runner.os }}-kuzu-
-              
+            
       - name: Commit built KUZU's dylib
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          cp libkuzu.dylib src-tauri/dependencies/ # Or desired directory in your repo
+          cp libkuzu.dylib src-tauri/dependencies/ 
           git add src-tauri/dependencies/libkuzu.dylib
           git commit -m "Add built libkuzu.dylib for macOS"
           git push
-          
+
       - name: Install Rust and Build Application with Kuzu
         uses: dtolnay/rust-toolchain@stable
 
