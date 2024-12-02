@@ -58,7 +58,7 @@ jobs:
 
       - name: Install Kùzu Rust API
         working-directory: ./src-tauri
-        run: cargo add kuzu --features=build
+        run: cargo add kuzu
 
       - name: Build Tauri App with Kùzu Integration
         working-directory: ./src-tauri
