@@ -49,8 +49,20 @@ jobs:
 
       - name: Install Tauri CLI and Dependencies
         run: |
-          npm install
-          npm install -g @tauri-apps/cli
+          npm install -g @tauri-apps/api@^2.0.2
+          npm install -g next@14.2.15
+          npm install -g react@^18
+          npm install -g react-dom@^18
+          npm install -g @tauri-apps/cli@^2.0.3
+          npm install -g @types/node@^20
+          npm install -g @types/react@^18
+          npm install -g @types/react-dom@^18
+          npm install -g eslint@^8
+          npm install -g eslint-config-next@14.2.15
+          npm install -g postcss@^8
+          npm install -g tailwindcss@^3.4.1
+          npm install -g typescript@^5
+
 
       # - name: Build Dependencies
       #   run: |
