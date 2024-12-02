@@ -1,4 +1,4 @@
-name: 'MacOS Build and Distribute'
+name: 'MacOS Build and Release'
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-release:
     runs-on: macos-latest
 
     env:
@@ -45,6 +45,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # Install Tauri CLI
+      - name: Install Tauri CLI
+        run: |
+          npm install -g @tauri-apps/cli
+
       # Install dependencies
       - name: Install Dependencies
         run: |
@@ -57,17 +62,22 @@ jobs:
       - name: Build Tauri App
         run: npm run tauri build
 
-      # Upload the built artifact
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: tauri-app-macos
-          path: src-tauri/target/release/bundle/macos/*.app
-
       # Verify the application
       - name: Verify Build
         run: |
-          if [ ! -d "src-tauri/target/release/bundle/macos/*.app" ]; then
-            echo "Build failed, application not found."
+          if [ ! -d "src-tauri/target/release/bundle/macos" ]; then
+            echo "Build failed, application files not found."
             exit 1
           fi
+
+      # Upload the built artifacts to GitHub Release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: success() # Run only if the build is successful
+        with:
+          files: |
+            src-tauri/target/release/bundle/macos/*.app
+            src-tauri/target/release/bundle/macos/*.dmg
+            src-tauri/target/release/bundle/macos/*.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
