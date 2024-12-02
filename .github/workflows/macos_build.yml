@@ -58,9 +58,12 @@ jobs:
           cargo update && cargo build --release
           cd ..
 
-      # Build the Tauri application
-      - name: Build Tauri App
-        run: npm run tauri build
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          CMAKE_BUILD_TYPE: Release
+        with:
+          releaseId: ${{ needs.create-release.outputs.release_id }}
 
       # Verify the application
       - name: Verify Build
@@ -73,7 +76,7 @@ jobs:
       # Upload the built artifacts to GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
-        if: success() # Run only if the build is successful
+        if: success() 
         with:
           files: |
             src-tauri/target/release/bundle/macos/*.app
