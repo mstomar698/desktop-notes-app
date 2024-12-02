@@ -52,17 +52,18 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Install Rust Dependencies
+      - name: Navigate to `src-tauri` and Install Rust Dependencies
+        working-directory: ./src-tauri
         run: cargo install --path .
 
       - name: Install Kùzu Rust API
-        run: |
-          cargo add kuzu --features=build
-          echo "Installed Kùzu for Rust"
+        working-directory: ./src-tauri
+        run: cargo add kuzu --features=build
 
       - name: Build Tauri App with Kùzu Integration
+        working-directory: ./src-tauri
         env:
-          RUST_BACKTRACE: 1
+         RUST_BACKTRACE: 1
         run: cargo tauri build
 
   publish-release:
