@@ -1,4 +1,4 @@
-name: 'Macos Build and Distribute'
+name: 'MacOS Build and Distribute with Rust and Kùzu'
 
 on:
   push:
@@ -15,10 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
       - name: Get Version
         run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: Create Release
@@ -44,29 +40,30 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-      - name: Cache Node.js Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+      - name: Install Dependencies for Building Kùzu
+        run: |
+          brew install cmake gcc llvm
+          export PATH="/usr/local/opt/llvm/bin:$PATH"
+
       - name: Set Up Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
           override: true
-      - name: Install Dependencies
+
+      - name: Install Rust Dependencies
+        run: cargo install --path .
+
+      - name: Install Kùzu Rust API
         run: |
-          npm install
-          npm install kuzu
-      - name: Build Tauri App
-        run: npm run tauri build
+          cargo add kuzu --features=build
+          echo "Installed Kùzu for Rust"
+
+      - name: Build Tauri App with Kùzu Integration
+        env:
+          RUST_BACKTRACE: 1
+        run: cargo tauri build
 
   publish-release:
     permissions:
