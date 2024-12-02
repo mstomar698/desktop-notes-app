@@ -49,17 +49,15 @@ jobs:
 
       - name: Install Tauri CLI and Dependencies
         run: |
+          npm install
           npm install -g @tauri-apps/cli
-          npm install -D tailwindcss postcss autoprefixer
-          
-          npm ci  
 
-      - name: Build Dependencies
-        run: |
-          cd src-tauri
-          cargo update
-          cargo build --release
-          cd ..
+      # - name: Build Dependencies
+      #   run: |
+      #     cd src-tauri
+      #     cargo update
+      #     cargo build --release
+      #     cd ..
 
       - name: Build Tauri App
         run: npm run tauri build
